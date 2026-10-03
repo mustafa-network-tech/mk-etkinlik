@@ -7,7 +7,7 @@ Beş değer her biri için ham toplam:
 ```
 raw_k = Σ_over_item_types  ( stat_k · Σ_{j=0}^{n-1} decay^j ) · condition
 ```
-- `n`: aynı eşya türünden yerleştirilen adet, `decay = stack_decay` (varsayılan 0.7). 10 avize 10 kat prestij vermez.
+- `n`: aynı eşya türünden yerleştirilen adet, `decay = stack_decay` (eşya başına; yoksa 0.7). Sandalye gibi sayıyla ölçeklenen eşyalarda 1.0. 10 avize 10 kat prestij vermez.
 - `condition` ∈ [0,1]: durabilite/aşınma (hasar sonrası bakım yapılmazsa düşer).
 
 ## 2. Beş değerin hesabı (0–100)

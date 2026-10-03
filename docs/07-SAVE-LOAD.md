@@ -3,13 +3,15 @@
 ## 1. İlkeler
 - **Sürümlü şema:** her dosyada `schema_version` tamsayısı. Yeni sürüm = eski sürümden otomatik **göç (migration)** fonksiyonu zinciri.
 - **Yalnızca kalıcı durum** kaydedilir; türetilmiş veri (nav ızgarası, önbellek) yüklemede yeniden üretilir.
-- **Katalog kimlikle:** eşya tanımı kayda gömülmez, `def_id` ile anılır. Katalog değişince eski kayıt bozulmaz; bilinmeyen `def_id` “kayıp eşya”: nakit iadesi + uyarı.
+- **Katalog kimlikle:** eşya tanımı kayda gömülmez, `def_id` ile anılır. Katalog değişince eski kayıt bozulmaz; bilinmeyen `def_id` atlanır ve `warnings` listesine `unknown_item:<id>` yazılır (iade yok: fiyat katalogda aranır, kayıtta tutulmaz).
 - **Atomik yazma:** önce `slot.json.tmp`, sonra yeniden adlandır; önceki kayıt `slot.json.bak` olarak bir sürüm saklanır.
 - **Bütünlük:** her dosyada `checksum` (SHA-256 gövde). Doğrulama başarısızsa `.bak`’tan dene, olmazsa kullanıcıya bildir (sessiz silme yok).
 - Konum: `user://saves/slot_N.json` (Godot kullanıcı veri klasörü). Çevrimdışı; bulut yok.
 - **Etkinlik sırasında kayıt:** MVP’de yalnızca etkinlikler arasında (hazırlık modunda) otomatik/elle kayıt. Canlı etkinlik ortası kayıt MVP sonrası (NPC, sipariş, kuyruk durumu da serileştirilmeli).
 
 ## 2. Zarf (envelope)
+**Uygulanan biçim:** dosyanın ilk satırı zarf JSON'u, geri kalanı durum JSON'u; `checksum` durum metninin SHA-256'sıdır (JSON'u ayrıştırıp yeniden yazınca int/float farkı doğrulamayı bozmasın diye). Aşağıdaki tek JSON gösterimi mantıksal şemadır.
+
 ```json
 {
   "schema_version": 1,
