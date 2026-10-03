@@ -1,0 +1,137 @@
+{
+ "birthday_kids": {
+  "name_key": "event.birthday_kids",
+  "weights": {
+   "prestige": 0.5,
+   "comfort": 1.0,
+   "fun": 1.5,
+   "service": 1.0,
+   "safety": 1.5
+  },
+  "guests": [
+   20,
+   50
+  ],
+  "budget_per_guest": [
+   300,
+   450
+  ],
+  "head_cost": 110,
+  "hours": 3,
+  "base_expect": {
+   "prestige": 20,
+   "comfort": 35,
+   "fun": 45,
+   "service": 35,
+   "safety": 18
+  }
+ },
+ "engagement": {
+  "name_key": "event.engagement",
+  "weights": {
+   "prestige": 1.5,
+   "comfort": 1.0,
+   "fun": 1.0,
+   "service": 1.0,
+   "safety": 0.5
+  },
+  "guests": [
+   40,
+   90
+  ],
+  "budget_per_guest": [
+   550,
+   800
+  ],
+  "head_cost": 190,
+  "hours": 4,
+  "base_expect": {
+   "prestige": 40,
+   "comfort": 35,
+   "fun": 30,
+   "service": 35,
+   "safety": 10
+  }
+ },
+ "henna": {
+  "name_key": "event.henna",
+  "weights": {
+   "prestige": 1.0,
+   "comfort": 1.0,
+   "fun": 1.5,
+   "service": 1.0,
+   "safety": 0.5
+  },
+  "guests": [
+   40,
+   100
+  ],
+  "budget_per_guest": [
+   450,
+   700
+  ],
+  "head_cost": 170,
+  "hours": 4,
+  "base_expect": {
+   "prestige": 30,
+   "comfort": 35,
+   "fun": 40,
+   "service": 35,
+   "safety": 10
+  }
+ },
+ "graduation": {
+  "name_key": "event.graduation",
+  "weights": {
+   "prestige": 0.5,
+   "comfort": 1.0,
+   "fun": 1.5,
+   "service": 1.0,
+   "safety": 1.0
+  },
+  "guests": [
+   30,
+   80
+  ],
+  "budget_per_guest": [
+   350,
+   550
+  ],
+  "head_cost": 130,
+  "hours": 4,
+  "base_expect": {
+   "prestige": 20,
+   "comfort": 30,
+   "fun": 40,
+   "service": 35,
+   "safety": 15
+  }
+ },
+ "corporate": {
+  "name_key": "event.corporate",
+  "weights": {
+   "prestige": 1.0,
+   "comfort": 1.5,
+   "fun": 0.5,
+   "service": 1.5,
+   "safety": 1.0
+  },
+  "guests": [
+   25,
+   70
+  ],
+  "budget_per_guest": [
+   600,
+   900
+  ],
+  "head_cost": 210,
+  "hours": 3,
+  "base_expect": {
+   "prestige": 35,
+   "comfort": 40,
+   "fun": 15,
+   "service": 45,
+   "safety": 15
+  }
+ }
+}

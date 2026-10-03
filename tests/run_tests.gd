@@ -12,6 +12,11 @@ func _init() -> void:
 	files.sort()
 	for f in files:
 		var script: GDScript = load("res://tests/" + f)
+		if script == null or not script.can_instantiate():
+			total += 1
+			failed += 1
+			print("FAIL  %s (betik derlenemedi)" % f)
+			continue
 		var methods: Array[String] = []
 		for m in script.get_script_method_list():
 			if String(m["name"]).begins_with("test_"):

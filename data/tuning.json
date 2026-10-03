@@ -27,38 +27,70 @@
     "dancers_ratio": 0.4,
     "service_per_waiter": 8,
     "service_demand_per_guest": 0.8,
-    "exit_bonus": 5,
-    "security_bonus": 6
+    "exit_bonus": 8,
+    "security_bonus": 6,
+    "waiter_service_points": 20
   },
   "sim": {
     "step_s": 0.1,
     "game_min_per_real_s": 0.6667,
     "walk_cells_per_s": 2.4,
-    "waiter_cells_per_s": 3.0,
+    "waiter_cells_per_s": 3.5,
     "decision_period_steps": 5,
     "need_threshold": 35,
     "distance_d0_cells": 12,
     "decision_noise": 0.05,
-    "hunger_rate": 0.45,
+    "hunger_rate": 0.22,
     "fun_rate_music": 0.5,
     "fun_rate_silent": 0.1,
     "bladder_rate": 0.3,
-    "patience_drain": 3.0,
+    "patience_drain": 2.0,
     "patience_relief": 30,
     "persona_min": 0.6,
     "persona_max": 1.4,
-    "eat_time_s": 25,
+    "eat_time_s": 15,
     "eat_relief": 70,
     "dance_time_s": 30,
     "dance_relief": 60,
     "wc_time_s": 8,
     "wc_relief": 100,
-    "pickup_time_s": 2,
+    "pickup_time_s": 1.5,
     "sat_tolerance": 30,
     "sat_exponent": 1.2,
     "sat_k": 0.35,
     "arrival_gap_min": 2.0,
     "default_duration_min": 240,
     "abandon_penalty": 0.15
+  },
+  "economy": {
+    "wages_per_hour": {
+      "waiter": 280,
+      "cook": 450,
+      "bartender": 300
+    },
+    "setup_hours": 1,
+    "electricity_per_unit_hour": 9,
+    "guests_size_min": 0.6,
+    "guests_size_max": 1.5,
+    "guests_size_ref": 60,
+    "match_span": 60,
+    "match_weight": 0.5,
+    "sat_weight": 0.5,
+    "incident_pen_per_abandon": 0.02,
+    "incident_pen_max": 0.25,
+    "low_star_discount": {
+      "1": 0.4,
+      "2": 0.2
+    },
+    "low_star_extra_rep": 8,
+    "rep_per_star": 12,
+    "rep_max": 1000,
+    "tier_thresholds": [
+      300,
+      700
+    ],
+    "budget_tier_gain": 0.6,
+    "expect_tier_gain": 8,
+    "haggle_slope": 0.04
   }
 }

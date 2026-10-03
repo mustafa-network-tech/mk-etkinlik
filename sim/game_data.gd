@@ -5,14 +5,23 @@ const ROTATIONS := [0, 90, 180, 270]
 
 var defs: Dictionary = {}
 var tuning: Dictionary = {}
+var event_types: Dictionary = {}
+var names: Array = []
 
 
-func load_from(items_path: String, tuning_path: String) -> bool:
+func load_from(items_path: String, tuning_path: String,
+		event_types_path: String = "res://data/event_types.json",
+		names_path: String = "res://data/names.json") -> bool:
 	var items = _read_json(items_path)
 	var tun = _read_json(tuning_path)
-	if typeof(items) != TYPE_DICTIONARY or typeof(tun) != TYPE_DICTIONARY:
+	var types = _read_json(event_types_path)
+	var nm = _read_json(names_path)
+	if typeof(items) != TYPE_DICTIONARY or typeof(tun) != TYPE_DICTIONARY \
+			or typeof(types) != TYPE_DICTIONARY or typeof(nm) != TYPE_DICTIONARY:
 		return false
 	tuning = tun
+	event_types = types
+	names = nm["first"]
 	defs.clear()
 	for id in items:
 		var def: Dictionary = items[id]

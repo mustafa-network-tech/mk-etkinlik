@@ -31,7 +31,7 @@ static func estimate(state, guests: int, staff: Array = []) -> Dictionary:
 		"prestige": raw["prestige"],
 		"comfort": raw["comfort"] * seat_ratio * wc_ratio * (1.0 - crowd),
 		"fun": raw["fun"] * dance_ratio,
-		"service": raw["service"] * service_ratio,
+		"service": (raw["service"] + waiters * float(st["waiter_service_points"])) * service_ratio,
 		"safety": maxf(0.0, raw["safety"] + float(st["exit_bonus"]) + security * float(st["security_bonus"])) * (1.0 - crowd),
 	}
 	var out := {}

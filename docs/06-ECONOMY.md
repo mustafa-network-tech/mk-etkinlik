@@ -42,7 +42,7 @@ Beklenti tanımsızsa `E_k = tür taban beklentisi`. “Özel istek” karşıla
 ```
 guest_sat   = zaman ağırlıklı ortalama memnuniyet (0–1)
 incident_pen = min(0.25, 0.02 · ciddi_olay_sayısı)        # MVP’de kuyruk terkleri sayılır
-final       = 0.45·match + 0.45·guest_sat − incident_pen
+final       = 0.5·match + 0.5·guest_sat − incident_pen        # ağırlıklar toplamı 1: 5 yıldız ulaşılabilir
 stars       = clamp( round(1 + 4·final), 1, 5 )
 ```
 Yorum metni: en düşük 2 değer + en büyük ihtiyaç şikâyeti türünden şablon cümleler (TR/EN tablosu), kişiliğe göre ton.
@@ -72,7 +72,7 @@ gelir = agreed_price  +  bar_revenue  +  extras
 bar_revenue = Σ içecek satışı (fiyat − maliyet)    # barda satılan her içecek
 extras      = fotoğraf köşesi, VIP paket vb. (MVP sonrası)
 ```
-Sözleşme: ön ödeme %20 (tarihten sonra iade edilmez), kalan %80 etkinlik bitiminde. `stars ≤ 2` ise son ödemede %10 kesinti (şikâyet).
+Sözleşme: ön ödeme %20 (tarihten sonra iade edilmez), kalan %80 etkinlik bitiminde. 1 yıldızda %40, 2 yıldızda %20 kesinti (şikâyet); `data/tuning.json` → `economy.low_star_discount`.
 
 ## 7. Gider (etkinlik başına)
 | Kalem | Formül | Başlangıç |
@@ -109,3 +109,9 @@ XP = `stars·10 + guests/5 + net/1000`. Seviye eşikleri: 1→2: 100 XP, sonra �
 2. Dengeli yerleşim (masa, DJ, 1 WC, 1 garson, 1 aşçı) → 3–4 yıldız, net pozitif.
 3. Yalnızca dekorasyona yatırım, personelsiz → prestij yüksek, servis ~0, 1–2 yıldız, net negatif. (Başarısızlığın mümkün olduğunu kanıtlar.)
 4. Aynı bütçe iki yerleşim: WC pist yanında / pist uzağında; yıldız farkı ≥ 1.
+
+## 11. Uygulama notları (Faz 1, dilim 1d)
+- Servis değeri artık garsondan da gelir: `waiter_service_points` (20) × garson hızı, eşya servis puanına eklenir; garson yoksa servis 0 kalır.
+- Güvenlik: yalnız çıkış bonusu (8). Güvenlik personeli MVP dışı olduğundan tüm türlerin güvenlik beklentisi düşük tutuldu (10–18).
+- Özel istek (fotoğraf köşesi vb.), bar geliri, hasar gideri ve ön ödeme henüz yok.
+- Etkinlik süresi ≈ 6 gerçek dakika; ihtiyaç artışı ve yeme/dans süreleri buna göre ayarlandı. Denge ilk oynanış testinden sonra yeniden bakılacak: şu an kötü bir etkinlik de nakit olarak kârlı kalabiliyor (ceza itibarda ve kesintide); “zarar ettirme” için indirim/itibar etkisi artırılabilir.

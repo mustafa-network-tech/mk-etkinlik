@@ -4,8 +4,7 @@ Etkinlik mekânı yönetim simülasyonu (Godot 4.4.1). Tasarım belgeleri: [docs
 
 ## Testler
 ```
-godot --headless --path . --import          # ilk seferde
-godot --headless --path . --script tests/run_tests.gd
+tests/run.sh   # motor hatası olursa da başarısız sayar
 ```
 
 ## Klasörler

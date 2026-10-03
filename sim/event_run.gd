@@ -204,7 +204,7 @@ func _decide_one(g) -> void:
 			return
 	var best := -1
 	var best_u := 0.0
-	var wants_seat := false
+	var wants_seat: bool = g.hunger >= thr and g.seat_station < 0 # koltuk hiç yoksa da sabır erir
 	for si in stations.size():
 		var st: Dictionary = stations[si]
 		if g.bad_stations.has(si):
@@ -215,8 +215,6 @@ func _decide_one(g) -> void:
 				if g.seat_station >= 0:
 					continue
 				need = g.hunger
-				if need >= thr:
-					wants_seat = true
 				if st["occupants"].size() >= st["slots"]:
 					continue
 			"dance":

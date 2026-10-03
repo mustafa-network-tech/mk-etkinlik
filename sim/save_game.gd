@@ -27,6 +27,7 @@ static func to_dict(state) -> Dictionary:
 	return {
 		"cash": state.cash,
 		"level": state.level,
+		"reputation": state.reputation,
 		"venue": {"width": venue.width, "height": venue.height, "walls": walls,
 				"items": items, "next_id": venue.next_id},
 	}
@@ -40,6 +41,7 @@ static func from_dict(game_data, d: Dictionary) -> Dictionary:
 		return {"ok": false, "error": "grid_mismatch"}
 	state.cash = int(d.get("cash", 0))
 	state.level = int(d.get("level", 1))
+	state.reputation = int(d.get("reputation", 0))
 	var venue = state.venue
 	for w in v.get("walls", []):
 		var x := int(w["x"])
