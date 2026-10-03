@@ -214,7 +214,7 @@ func _decide_one(g) -> void:
 			"seat":
 				if g.seat_station >= 0:
 					continue
-				need = g.hunger
+				need = maxf(g.hunger, float(cfg["seek_seat_need"])) # gelen misafir önce oturmak ister
 				if st["occupants"].size() >= st["slots"]:
 					continue
 			"dance":

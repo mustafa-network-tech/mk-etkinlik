@@ -15,35 +15,50 @@ static func apply(state, cmd: Dictionary) -> Dictionary:
 	return _fail("unknown_command")
 
 
-static func _place_item(state, cmd: Dictionary) -> Dictionary:
+## Yerleştirme geçerli mi? "" = evet, değilse hata kodu. Durumu değiştirmez (önizleme için).
+static func check_place(state, def_id: String, origin: Vector2i, rot: int) -> String:
 	var data = state.data
 	var venue = state.venue
-	var def_id: String = cmd.get("def", "")
-	var rot: int = int(cmd.get("rot", 0))
+	if state.event_active:
+		return "locked_during_event"
 	if not data.has_def(def_id):
-		return _fail("unknown_item")
+		return "unknown_item"
 	if not data.ROTATIONS.has(rot):
-		return _fail("bad_rotation")
+		return "bad_rotation"
 	var def: Dictionary = data.defs[def_id]
 	if int(def["tier_unlock"]) > state.level:
-		return _fail("locked")
+		return "locked"
 	if state.cash < int(def["price"]):
-		return _fail("not_enough_cash")
-	var origin := Vector2i(int(cmd.get("x", 0)), int(cmd.get("y", 0)))
+		return "not_enough_cash"
 	var cells: Array[Vector2i] = []
 	for off in data.footprint(def_id, rot):
 		cells.append(origin + off)
 	for c in cells:
 		if not venue.in_bounds(c):
-			return _fail("out_of_bounds")
+			return "out_of_bounds"
 		if venue.occupant(c) != 0:
-			return _fail("occupied")
+			return "occupied"
 	for a in cells:
 		for d in Nav.DIRS:
 			if cells.has(a + d) and venue.has_wall_between(a, a + d):
-				return _fail("wall_in_way")
+				return "wall_in_way"
 	if cells.has(venue.entrance) and data.blocks_movement(def_id):
-		return _fail("blocks_entrance")
+		return "blocks_entrance"
+	return ""
+
+
+static func _place_item(state, cmd: Dictionary) -> Dictionary:
+	var def_id: String = cmd.get("def", "")
+	var rot: int = int(cmd.get("rot", 0))
+	var origin := Vector2i(int(cmd.get("x", 0)), int(cmd.get("y", 0)))
+	var err := check_place(state, def_id, origin, rot)
+	if err != "":
+		return _fail(err)
+	var venue = state.venue
+	var def: Dictionary = state.data.defs[def_id]
+	var cells: Array[Vector2i] = []
+	for off in state.data.footprint(def_id, rot):
+		cells.append(origin + off)
 	var id: int = venue.next_id
 	venue.next_id += 1
 	venue.items[id] = {"id": id, "def": def_id, "x": origin.x, "y": origin.y,

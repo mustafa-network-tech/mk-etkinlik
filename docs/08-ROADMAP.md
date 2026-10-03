@@ -13,7 +13,14 @@
 - [x] Dilim 1b: kaydet/yükle (07), beş değer statik tahmini (06 §2); toplam 29 test yeşil.
 - [x] Dilim 1c: sabit adımlı etkinlik simülasyonu (`sim/event_run.gd`), A*, ihtiyaçlar, istasyon kuyrukları, garson sipariş akışı, olay günlüğü; toplam 42 test yeşil.
 - [x] Dilim 1d-mantık: etkinlik sonucu (beklenti eşleşmesi, yıldız, gelir/gider, itibar), müşteri talebi ve teklif kabulü, 50 test yeşil.
-- [ ] Dilim 1d-sunum (yarım): 2D yapı modu görünümü, etkinlik izleme, sonuç ekranı arayüzü.
+- [x] Dilim 1d-sunum: 2D ana ekran (`presentation/`): yapı modu (yerleştir/duvar/sil/döndür), talep ve teklif, personel, beş değer çubukları, etkinlik izleme (1x/2x/4x/duraklat), sonuç paneli, kaydet/yükle, TR/EN çeviri tablosu (`data/strings.json`). Ekran görüntüleri: `docs/img/`.
+- [ ] Faz 1 çıkış kriteri (yarım): bir insan oyuncuyla 10 dakikalık deneme henüz yapılmadı. Aşağıdaki "Bilinen eksikler"e bakın.
+
+### Bilinen eksikler (Faz 1)
+- Arayüz yalnız sanal ekranda (xvfb) doğrulandı; fare etkileşimi (tıklayıp yerleştirme, duvar kenarı seçimi, sağ tık silme) elle denenmedi.
+- Yazı tipi motorun varsayılanı; ayrı yazı tipi ve görsel cila yok.
+- Kayıt yalnız mekân/kasa/seviye/itibar/gün; sözleşme ve talep yüklemede yeniden üretilir.
+- Denge: bkz. docs/06 §11.
 
 ## Faz 1 · Prototip — “Eğlenceli mi?”
 Kapsam: Godot projesi, 2D üstten görünüm, ızgara yapı modu, 10 eşya, 1 etkinlik türü, 10 misafir, 1 garson, 4 ihtiyaç (açlık, eğlence, tuvalet, sabır), basit sonuç ekranı. Renkli kutular.

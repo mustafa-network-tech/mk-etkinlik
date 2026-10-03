@@ -60,7 +60,8 @@
     "sat_k": 0.35,
     "arrival_gap_min": 2.0,
     "default_duration_min": 240,
-    "abandon_penalty": 0.15
+    "abandon_penalty": 0.15,
+    "seek_seat_need": 40
   },
   "economy": {
     "wages_per_hour": {

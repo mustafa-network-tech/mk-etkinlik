@@ -10,6 +10,7 @@ var venue
 var cash: int
 var level: int
 var reputation := 0 ## 0..1000
+var day := 1
 var event_active := false
 
 
