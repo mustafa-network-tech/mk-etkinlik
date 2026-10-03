@@ -1,0 +1,10 @@
+{
+  "grid_width": 40,
+  "grid_height": 25,
+  "entrance": [0, 12],
+  "start_cash": 60000,
+  "start_level": 1,
+  "wall_cost": 150,
+  "wall_refund_ratio": 0.7,
+  "default_sell_ratio": 0.7
+}

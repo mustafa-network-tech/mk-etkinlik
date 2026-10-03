@@ -27,3 +27,8 @@ Tarih: 3 Ekim 2026. Karar veren: proje sahibi “sen karar ver” dedi; önerile
 
 ## Faz 0 durumu
 Açık sorular (motor, 3D kaynağı, dil, değerler) yukarıda kapatıldı. Faz 0 çıkışı için kalan: sahibinin bu kararları ve MVP kapsamını gözden geçirmesi.
+
+## K6 · Godot sürümü ve test aracı (4 Ekim 2026)
+- **Sürüm:** Godot **4.4.1-stable** (linux x86_64 ile headless doğrulandı). Yükseltme ayrı karar.
+- **Test:** Harici eklenti yok; `tests/run_tests.gd` küçük bir koşucu (`test_*.gd` dosyalarında `test_*` metotları). Gerekçe: bağımlılık yok, CI'da tek komut. Yetersiz kalırsa gdUnit4'e geçilir.
+- **Komut:** `godot --headless --path . --import` (ilk seferde) sonra `godot --headless --path . --script tests/run_tests.gd`. Hata varsa çıkış kodu 1.

@@ -4,9 +4,15 @@
 
 ## Faz 0 · Tasarım (şu an)
 - [x] GDD, mimari, durum modeli, NPC makinesi, ızgara, ekonomi, kayıt, yol haritası taslakları.
-- [ ] Açık soruların kapatılması (README): motor, 3D içerik kaynağı, dil, değerler.
-- [ ] `docs/DECISIONS.md` oluşturulması (motor sürümü, gerekçeler).
-- **Çıkış:** Sahibi motor ve MVP kapsamını onayladı.
+- [x] Açık soruların kapatılması: motor, 3D içerik kaynağı, dil, değerler (bkz. DECISIONS.md).
+- [x] `docs/DECISIONS.md` oluşturuldu (motor sürümü: 4.4.1).
+- **Çıkış:** Sahibi motor ve MVP kapsamını onayladı. (Karar sahibi “sen karar ver” dedi; Faz 1 başladı.)
+
+## Faz 1 durumu (yarım)
+- [x] Dilim 1a: proje iskeleti, katalog, ızgara, duvar, `PlaceItem`/`RemoveItem`/`AddWall`/`RemoveWall`, erişilebilirlik raporu, 14 test yeşil.
+- [ ] Dilim 1b: kaydet/yükle (07), beş değer statik tahmini (06 §2).
+- [ ] Dilim 1c: simülasyon döngüsü, misafir ihtiyaçları, yol bulma (04).
+- [ ] Dilim 1d: sonuç ekranı ve 2D sunum.
 
 ## Faz 1 · Prototip — “Eğlenceli mi?”
 Kapsam: Godot projesi, 2D üstten görünüm, ızgara yapı modu, 10 eşya, 1 etkinlik türü, 10 misafir, 1 garson, 4 ihtiyaç (açlık, eğlence, tuvalet, sabır), basit sonuç ekranı. Renkli kutular.

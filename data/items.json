@@ -1,0 +1,74 @@
+{
+  "table_round_8": {
+    "name_key": "item.table_round_8",
+    "category": "furniture",
+    "footprint": [[0,0],[1,0],[2,0],[0,1],[1,1],[2,1],[0,2],[1,2],[2,2]],
+    "price": 3500,
+    "tier_unlock": 1,
+    "stats": {"prestige": 2, "comfort": 0, "fun": 0, "service": 0, "safety": 0},
+    "power": 0,
+    "durability": 90,
+    "blocks_movement": true,
+    "station": {"kind": "table", "slots": 8}
+  },
+  "chair_basic": {
+    "name_key": "item.chair_basic",
+    "category": "furniture",
+    "footprint": [[0,0]],
+    "price": 400,
+    "tier_unlock": 1,
+    "stats": {"prestige": 0, "comfort": 1, "fun": 0, "service": 0, "safety": 0},
+    "power": 0,
+    "durability": 70,
+    "blocks_movement": false,
+    "station": {"kind": "seat", "slots": 1}
+  },
+  "dj_basic": {
+    "name_key": "item.dj_basic",
+    "category": "tech",
+    "footprint": [[0,0],[1,0],[2,0]],
+    "price": 8000,
+    "tier_unlock": 1,
+    "stats": {"prestige": 1, "comfort": 0, "fun": 6, "service": 0, "safety": 0},
+    "power": 3,
+    "durability": 75,
+    "blocks_movement": true,
+    "station": null
+  },
+  "service_table": {
+    "name_key": "item.service_table",
+    "category": "ops",
+    "footprint": [[0,0],[1,0]],
+    "price": 2500,
+    "tier_unlock": 1,
+    "stats": {"prestige": 0, "comfort": 0, "fun": 0, "service": 5, "safety": 0},
+    "power": 0,
+    "durability": 85,
+    "blocks_movement": true,
+    "station": {"kind": "serve", "slots": 2}
+  },
+  "wc_basic": {
+    "name_key": "item.wc_basic",
+    "category": "ops",
+    "footprint": [[0,0],[1,0],[0,1],[1,1]],
+    "price": 6000,
+    "tier_unlock": 1,
+    "stats": {"prestige": 0, "comfort": 4, "fun": 0, "service": 0, "safety": 0},
+    "power": 1,
+    "durability": 80,
+    "blocks_movement": true,
+    "station": {"kind": "wc", "slots": 1}
+  },
+  "speaker_pro": {
+    "name_key": "item.speaker_pro",
+    "category": "tech",
+    "footprint": [[0,0]],
+    "price": 18000,
+    "tier_unlock": 5,
+    "stats": {"prestige": 8, "comfort": 0, "fun": 22, "service": 0, "safety": 0},
+    "power": 4,
+    "durability": 82,
+    "blocks_movement": true,
+    "station": null
+  }
+}
