@@ -25,7 +25,7 @@ stat_k = 100 · (1 − exp(−eff_k / scale_k))      # doyma eğrisi, 100’e as
 | Güvenlik | `raw_safety` + `exits_bonus` + `security_staff·6` − `crowd_penalty` |
 
 Başlangıç `scale_k`: prestij 60, konfor 50, eğlence 55, servis 45, güvenlik 40.
-`crowd_penalty` = `clamp((guests / usable_cells·0.5 m² − 1.2) · 0.5, 0, 0.6)` (kişi başı kullanılabilir alan 1.2 m²’nin altına inerse ceza).
+`crowd_penalty` = `clamp((1.2 − usable_m² / guests) · 0.5, 0, 0.6)`; `usable_m² = geçilebilir hücre × 0.25` (hücre 0.5 m × 0.5 m). Kişi başı alan 1.2 m²’nin altına inerse ceza.
 `service_capacity` = Σ_garson `speed · 8` (masa-servis/saat) vs `guest_demand = guests·0.8` (kişi başı saatlik servis talebi).
 
 Bu değerler **statik tahmin**dir (yapı modunda canlı gösterilir). Etkinlik sırasındaki gerçek sonuç NPC davranışından gelir; ikisi arasındaki fark oyuncuya “plan ile gerçek” öğretici olur.
