@@ -87,3 +87,15 @@ Her anlamlı olay (`QUEUE_ABANDON`, `ORDER_LATE`, `WC_QUEUE_LONG`, `NO_SEAT`, `N
 - Tek WC + 20 misafir: kuyruk uzunluğu ve terk sayısı beklenen aralıkta.
 - Servis masası mutfağa 2 hücre / 15 hücre: ortalama teslim süresi farkı ≥ %40.
 - Kapı kapalıysa (yol yok): `NO_PATH` olayı ve etkinlik başlatma uyarısı.
+
+## 11. Uygulama notları (Faz 1, dilim 1c)
+Koda geçen ve belgeden **sadeleşen** noktalar (sayılar `data/tuning.json` → `sim`):
+- İhtiyaçlar: açlık, eğlence, tuvalet, sabır. Konfor/sosyal/susuzluk henüz yok. Eğlence yalnız müzik açıkken hızlı artar (`music: true` bayrağı olan eşya, şimdilik DJ).
+- Durumlar: DECIDING, MOVING, QUEUEING, USING, SEATED, EATING, LEAVING, GONE (ARRIVING/ENTERING birleşti: misafir girişte doğar).
+- Koltuk gidilirken **rezerve** edilir; pist ve WC'de slot varışta alınır, doluysa kuyruk. Koltuk için kuyruk yok: boş koltuk yoksa `NO_SEAT` günlüğü ve sabır azalır.
+- Sabır yalnız kuyrukta, sipariş beklerken ve koltuk bulamazken azalır (taban 3.0/oyun dk × kişilik); servis edilince +30. 0 olunca misafir ayrılır (`QUEUE_ABANDON`, `ORDER_LATE`, `NO_SEAT`).
+- Hedef seçimi bölüm 4'teki fayda formülüyle; histerezis ve acil durum istisnası henüz yok.
+- Sipariş akışı: yalnız yemek; mutfak/bar hazırlık süresi yok, garson servis masasında 2 sn bekleyip teslim eder. Servis masası olmazsa sipariş alınmaz.
+- Misafir gruplaması, çocuk profili, çarpışma ve kalabalık maliyeti yok.
+- Memnuniyet: bölüm 2'deki formül + sabır eksikliği, zaman ortalaması; terk edene −0.15.
+- Çıktı: `EventRun.result()` → guest_sat, abandon_count, meals/dances/wc_uses, avg_order_wait_s, kuyruk zirveleri, olay günlüğü. Yıldız ve itibar dilim 1d.

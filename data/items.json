@@ -38,7 +38,8 @@
     "durability": 75,
     "blocks_movement": true,
     "station": null,
-    "capacity": {}
+    "capacity": {},
+    "music": true
   },
   "service_table": {
     "name_key": "item.service_table",

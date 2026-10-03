@@ -11,7 +11,7 @@
 ## Faz 1 durumu (yarım)
 - [x] Dilim 1a: proje iskeleti, katalog, ızgara, duvar, `PlaceItem`/`RemoveItem`/`AddWall`/`RemoveWall`, erişilebilirlik raporu, 14 test yeşil.
 - [x] Dilim 1b: kaydet/yükle (07), beş değer statik tahmini (06 §2); toplam 29 test yeşil.
-- [ ] Dilim 1c: simülasyon döngüsü, misafir ihtiyaçları, yol bulma (04).
+- [x] Dilim 1c: sabit adımlı etkinlik simülasyonu (`sim/event_run.gd`), A*, ihtiyaçlar, istasyon kuyrukları, garson sipariş akışı, olay günlüğü; toplam 42 test yeşil.
 - [ ] Dilim 1d: sonuç ekranı ve 2D sunum.
 
 ## Faz 1 · Prototip — “Eğlenceli mi?”
