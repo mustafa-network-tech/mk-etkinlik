@@ -12,14 +12,15 @@ Kod yok; önce tasarım. Okuma sırası:
 | 6 | [06-ECONOMY.md](06-ECONOMY.md) | Beş değer, müşteri beklentisi, gelir/gider, itibar formülleri |
 | 7 | [07-SAVE-LOAD.md](07-SAVE-LOAD.md) | Sürümlü kayıt şeması |
 | 8 | [08-ROADMAP.md](08-ROADMAP.md) | Faz planı, çıkış kriterleri, riskler |
+| — | [DECISIONS.md](DECISIONS.md) | Alınan kararlar (motor, varlık, dil, para) |
 
 Önceki not: [PROJE_NOTU.md](PROJE_NOTU.md).
 
 ## Sayılar nerede?
 Bu belgelerdeki tüm sayılar **başlangıç tahminidir**. Denge ayarı prototipte yapılacak; sayılar kodda değil, veri dosyalarında (`data/*.json`) durur.
 
-## Açık sorular (sizin kararınız)
-1. **Motor:** Godot 4 öneriyorum (bkz. 02). Unity tercih ederseniz belgeler büyük oranda geçerli kalır, yalnızca 02 değişir.
-2. **3D içerik kaynağı:** hazır lisanslı paket mi, 3D sanatçı mı? Prototip bu karardan bağımsız (renkli kutular).
-3. **Dil:** MVP yalnızca Türkçe mi, TR+EN mi? (Metinler baştan çeviri tablosunda tutulacak.)
-4. **Para birimi/değerler:** TL cinsinden gerçekçi değerler mi, oyun dengesine göre sadeleştirilmiş mi?
+## Kararlar (özet, ayrıntı DECISIONS.md)
+1. **Motor:** Godot 4 (GDScript); sürüm kurulumda kilitlenir.
+2. **3D içerik:** prototipte kutular, MVP’de lisanslı CC0/açık paketler, sanatçı kararı Faz 3’te.
+3. **Dil:** Türkçe + İngilizce, çeviri tablosuyla baştan.
+4. **Değerler:** gerçekçi TL, hepsi veri dosyalarında.
