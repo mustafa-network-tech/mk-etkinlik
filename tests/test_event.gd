@@ -2,6 +2,7 @@ extends "res://tests/test_case.gd"
 
 const EventRun := preload("res://sim/event_run.gd")
 const WAITER := [{"role": "waiter", "speed": 1.0}]
+const WAITER_COOK := [{"role": "waiter", "speed": 1.0}, {"role": "cook", "speed": 1.0}]
 
 
 ## Girişe yakın servis masası, uzakta WC, ortada pist+DJ.
@@ -34,7 +35,7 @@ func test_event_locks_building_and_unlocks_after() -> void:
 
 
 func test_balanced_venue_serves_guests() -> void:
-	var res := _run(_venue(), 10, WAITER)
+	var res := _run(_venue(), 10, WAITER_COOK)
 	eq(res["guests"], 10, "10 misafir geldi")
 	check(res["meals"] >= 10, "yemekler servis edildi")
 	check(res["dances"] > 0, "dans edildi")
@@ -54,6 +55,15 @@ func test_no_waiter_means_orders_go_unserved() -> void:
 		if e["kind"] == "ORDER_LATE":
 			late += 1
 	check(late > 0, "ORDER_LATE olayı kaydedildi")
+
+
+func test_cook_speeds_up_kitchen() -> void:
+	var waiters := [{"role": "waiter", "speed": 1.0}, {"role": "waiter", "speed": 1.0}]
+	var no_cook := _run(_venue(), 25, waiters)
+	var with_cook := _run(_venue(), 25, waiters + [{"role": "cook", "speed": 1.0}])
+	check(with_cook["meals"] > no_cook["meals"], "aşçıyla daha çok yemek (%d > %d)" % [with_cook["meals"], no_cook["meals"]])
+	check(with_cook["avg_order_wait_s"] < no_cook["avg_order_wait_s"], "aşçıyla sipariş daha kısa sürer")
+	check(with_cook["guest_sat"] > no_cook["guest_sat"], "aşçıyla memnuniyet yüksek")
 
 
 func test_no_service_table_is_equivalent_to_no_service() -> void:

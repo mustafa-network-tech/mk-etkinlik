@@ -29,6 +29,6 @@ Tarih: 3 Ekim 2026. Karar veren: proje sahibi “sen karar ver” dedi; önerile
 Açık sorular (motor, 3D kaynağı, dil, değerler) yukarıda kapatıldı. Faz 0 çıkışı için kalan: sahibinin bu kararları ve MVP kapsamını gözden geçirmesi.
 
 ## K6 · Godot sürümü ve test aracı (4 Ekim 2026)
-- **Sürüm:** Godot **4.4.1-stable** (linux x86_64 ile headless doğrulandı). Yükseltme ayrı karar.
+- **Sürüm:** Godot **4.4.1-stable** (linux x86_64 ve Windows 11 x86_64 ile headless doğrulandı). Yükseltme ayrı karar.
 - **Test:** Harici eklenti yok; `tests/run_tests.gd` küçük bir koşucu (`test_*.gd` dosyalarında `test_*` metotları). Gerekçe: bağımlılık yok, CI'da tek komut. Yetersiz kalırsa gdUnit4'e geçilir.
 - **Komut:** `tests/run.sh`. Godot çalışma zamanı hataları testi yarıda kesip sayıma yansımadığı için betik, çıktıda `SCRIPT ERROR`/`ERROR:` görürse de çıkış kodu 1 verir.

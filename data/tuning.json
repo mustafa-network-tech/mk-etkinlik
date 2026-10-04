@@ -23,13 +23,15 @@
     "min_area_per_guest_m2": 1.2,
     "crowd_penalty_slope": 0.5,
     "crowd_penalty_max": 0.6,
-    "guests_per_wc_slot": 15,
+    "guests_per_wc_slot": 25,
     "dancers_ratio": 0.4,
     "service_per_waiter": 8,
     "service_demand_per_guest": 0.8,
     "exit_bonus": 8,
     "security_bonus": 6,
-    "waiter_service_points": 20
+    "waiter_service_points": 20,
+    "service_per_cook": 24,
+    "kitchen_service_no_cook": 6
   },
   "sim": {
     "step_s": 0.1,
@@ -61,7 +63,10 @@
     "arrival_gap_min": 2.0,
     "default_duration_min": 240,
     "abandon_penalty": 0.15,
-    "seek_seat_need": 40
+    "seek_seat_need": 40,
+    "prep_time_cook_s": 6,
+    "prep_slots_per_cook": 2,
+    "prep_time_no_cook_s": 20
   },
   "economy": {
     "wages_per_hour": {
@@ -92,6 +97,15 @@
     ],
     "budget_tier_gain": 0.6,
     "expect_tier_gain": 8,
-    "haggle_slope": 0.04
+    "haggle_slope": 0.04,
+    "daily_rent": 600,
+    "debt_interest_per_day": 0.02,
+    "debt_limit": 100000,
+    "insolvency_days": 7,
+    "xp_per_star": 10,
+    "xp_guests_per_point": 5,
+    "xp_net_per_point": 1000,
+    "level_xp_base": 100,
+    "level_xp_growth": 1.35
   }
 }

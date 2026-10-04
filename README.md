@@ -8,7 +8,7 @@ tests/run.sh   # motor hatası olursa da başarısız sayar
 ```
 
 ## Klasörler
-`sim/` saf simülasyon · `commands/` oyuncu komutları · `data/` katalog ve ayarlar · `tests/` testler · `presentation/` (henüz yok) sahne ve UI.
+`sim/` saf simülasyon · `commands/` oyuncu komutları · `data/` katalog ve ayarlar · `tests/` testler · `presentation/` sahne ve UI · `tools/` geliştirici araçları.
 
 ## Çalıştırma
 Godot 4.4.1 ile `project.godot` açılır ya da `godot --path .`. Ekran görüntüsü aracı (sanal ekran):

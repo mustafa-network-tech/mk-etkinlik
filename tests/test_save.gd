@@ -106,6 +106,48 @@ func test_overlapping_items_in_save_are_rejected() -> void:
 	eq(SaveGame.from_dict(s.data, d)["error"], "corrupt_item", "çakışan kayıt bozuk sayılır")
 
 
+func test_overwriting_same_slot_keeps_latest_and_backup() -> void:
+	_cleanup()
+	var s = _sample()
+	check(SaveGame.write(s, PATH), "ilk yazma")
+	s.cash = 12345
+	check(SaveGame.write(s, PATH), "aynı dosyanın üstüne ikinci yazma (Windows'ta yeniden adlandırma)")
+	s.cash = 777
+	check(SaveGame.write(s, PATH), "üçüncü yazma")
+	var r := SaveGame.read(s.data, PATH)
+	check(r["ok"] and not r.get("from_backup", false), "ana dosyadan okundu")
+	eq(r["state"].cash, 777, "son kayıt okunur")
+	check(not FileAccess.file_exists(PATH + ".tmp"), "geçici dosya kalmaz")
+	_cleanup()
+
+
+func test_progress_fields_roundtrip() -> void:
+	var s = _sample()
+	s.xp = 42
+	s.insolvent_days = 3
+	var loaded = SaveGame.from_dict(s.data, SaveGame.to_dict(s))["state"]
+	eq(loaded.xp, 42, "XP korunur")
+	eq(loaded.insolvent_days, 3, "iflas sayacı korunur")
+
+
+func test_v1_save_migrates_to_current() -> void:
+	_cleanup()
+	var s = _sample()
+	var d := SaveGame.to_dict(s)
+	d.erase("xp")
+	d.erase("insolvent_days")
+	var body := JSON.stringify(d, "", true)
+	var env := JSON.stringify({"schema_version": 1, "checksum": body.sha256_text()}, "", true)
+	var f := FileAccess.open(PATH, FileAccess.WRITE)
+	f.store_string(env + "\n" + body)
+	f.close()
+	var r := SaveGame.read(s.data, PATH)
+	check(r["ok"], "v1 kayıt açılır")
+	eq(r["state"].xp, 0, "göç XP'yi 0 yapar")
+	eq(r["state"].level, 3, "eski alanlar korunur")
+	_cleanup()
+
+
 func test_migration_chain_applies_in_order() -> void:
 	var m: Array = [
 		func(d): d["a"] = 1; return d,

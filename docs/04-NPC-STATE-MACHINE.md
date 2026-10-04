@@ -95,7 +95,7 @@ Koda geçen ve belgeden **sadeleşen** noktalar (sayılar `data/tuning.json` →
 - Koltuk gidilirken **rezerve** edilir; pist ve WC'de slot varışta alınır, doluysa kuyruk. Koltuk için kuyruk yok: boş koltuk yoksa `NO_SEAT` günlüğü ve sabır azalır.
 - Sabır yalnız kuyrukta, sipariş beklerken ve koltuk bulamazken azalır (taban 3.0/oyun dk × kişilik); servis edilince +30. 0 olunca misafir ayrılır (`QUEUE_ABANDON`, `ORDER_LATE`, `NO_SEAT`).
 - Hedef seçimi bölüm 4'teki fayda formülüyle; histerezis ve acil durum istisnası henüz yok.
-- Sipariş akışı: yalnız yemek; mutfak/bar hazırlık süresi yok, garson servis masasında 2 sn bekleyip teslim eder. Servis masası olmazsa sipariş alınmaz.
+- Sipariş akışı: yalnız yemek (bar ve barmen yok). Sipariş verilince mutfak sırasına girer: her aşçı `prep_slots_per_cook` (2) tabağı `prep_time_cook_s` (6 sn) içinde paralel hazırlar; aşçı yoksa tek tezgâh, `prep_time_no_cook_s` (20 sn). Garson servis masasında yemek hazır olana kadar bekler, sonra 1.5 sn alıp teslim eder. Servis masası olmazsa sipariş alınmaz.
 - Misafir gruplaması, çocuk profili, çarpışma ve kalabalık maliyeti yok.
 - Memnuniyet: bölüm 2'deki formül + sabır eksikliği, zaman ortalaması; terk edene −0.15.
 - Çıktı: `EventRun.result()` → guest_sat, abandon_count, meals/dances/wc_uses, avg_order_wait_s, kuyruk zirveleri, olay günlüğü. Yıldız ve itibar dilim 1d.

@@ -32,6 +32,7 @@ var _tool_buttons := {}
 var _result_panel: ColorRect
 var _result_label: RichTextLabel
 var _speed_label: Label
+var _restart_btn: Button
 
 
 func _ready() -> void:
@@ -55,6 +56,8 @@ func _build_ui() -> void:
 	top.add_child(_top_label)
 	for pair in [["ui.save", _on_save], ["ui.load", _on_load]]:
 		top.add_child(_button(I18n.t(pair[0]), pair[1]))
+	_restart_btn = _button(I18n.t("ui.restart"), _restart)
+	top.add_child(_restart_btn)
 	_speed_label = Label.new()
 	top.add_child(_speed_label)
 	for sp in [1.0, 2.0, 4.0]:
@@ -224,7 +227,13 @@ func _show_result(res: Dictionary) -> void:
 	for e in res["expenses"]:
 		t += "  %s: -%s TL\n" % [I18n.t("expense." + e["kind"]), _money(e["amount"])]
 	t += "\n[b]%s[/b]\n" % I18n.t("ui.net", [_money(res["net"])])
-	t += I18n.t("ui.rep_change", [res["reputation_delta"]]) + "\n\n"
+	t += I18n.t("ui.rep_change", [res["reputation_delta"]]) + "\n"
+	t += I18n.t("ui.xp_gain", [res["xp_gain"]]) + "\n"
+	if res["levels_gained"] > 0:
+		t += "[b]%s[/b]\n" % I18n.t("ui.level_up", [session.state.level])
+	if res["closed"]:
+		t += "[b]%s[/b]\n" % I18n.t("ui.closed")
+	t += "\n"
 	t += "[b]%s[/b]\n" % I18n.t("ui.issues")
 	var shown := 0
 	for issue in res["issues"]:
@@ -244,6 +253,17 @@ func _show_result(res: Dictionary) -> void:
 
 func _close_result() -> void:
 	_result_panel.visible = false
+	_refresh()
+
+
+## İşletme kapandıktan sonra sıfırdan başlar (docs/01 §9: ilerleme korunmaz).
+func _restart() -> void:
+	session = Session.new(GameState.new(session.state.data), int(Time.get_unix_time_from_system()))
+	view.session = session
+	for role in _staff_spins:
+		_staff_spins[role].value = 0
+	_result_panel.visible = false
+	_status.text = ""
 	_refresh()
 
 
@@ -275,7 +295,7 @@ func _refresh() -> void:
 	var running: bool = session.run != null
 	view.queue_redraw()
 	_top_label.text = "%s   %s   %s   %s" % [I18n.t("ui.day", [state.day]), I18n.t("ui.cash", [_money(state.cash)]),
-			I18n.t("ui.level", [state.level]), I18n.t("ui.reputation", [state.reputation, I18n.t("tier.%d" % state.tier())])]
+			I18n.t("ui.level", [state.level, state.xp, state.xp_to_next()]), I18n.t("ui.reputation", [state.reputation, I18n.t("tier.%d" % state.tier())])]
 	_speed_label.text = "%s %dx%s" % [I18n.t("ui.speed"), int(speed), " ⏸" if paused else ""]
 	for t in _tool_buttons:
 		_tool_buttons[t].button_pressed = (view.tool == t)
@@ -286,7 +306,8 @@ func _refresh() -> void:
 		b.disabled = int(def["tier_unlock"]) > state.level or running
 		b.modulate = Color(1, 1, 0.6) if view.selected_def == id else Color.WHITE
 	_request_label.text = _describe_deal()
-	_offer_box.visible = session.contract.is_empty() and not running
+	_offer_box.visible = session.contract.is_empty() and not running and not state.is_closed()
+	_restart_btn.visible = state.is_closed()
 	_start_btn.disabled = not session.can_start()
 	for role in _staff_spins:
 		_staff_spins[role].editable = not running
@@ -301,6 +322,11 @@ func _refresh() -> void:
 	bars.set_values(Stats.estimate(state, guests, session.staff_list()), expect)
 	if running:
 		_status.text = I18n.t("ui.running", [int(session.run.minute()) / 60, int(session.run.minute()) % 60])
+	elif state.is_closed():
+		_status.text = I18n.t("ui.closed")
+	elif state.over_debt_limit():
+		var left: int = int(state.data.tuning["economy"]["insolvency_days"]) - state.insolvent_days
+		_status.text = I18n.t("ui.debt_warning", [left])
 	elif not Nav.unreachable_station_items(state).is_empty():
 		_status.text = I18n.t("ui.warning_unreachable", [Nav.unreachable_station_items(state).size()])
 

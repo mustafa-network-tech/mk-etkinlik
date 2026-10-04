@@ -114,4 +114,13 @@ XP = `stars·10 + guests/5 + net/1000`. Seviye eşikleri: 1→2: 100 XP, sonra �
 - Servis değeri artık garsondan da gelir: `waiter_service_points` (20) × garson hızı, eşya servis puanına eklenir; garson yoksa servis 0 kalır.
 - Güvenlik: yalnız çıkış bonusu (8). Güvenlik personeli MVP dışı olduğundan tüm türlerin güvenlik beklentisi düşük tutuldu (10–18).
 - Özel istek (fotoğraf köşesi vb.), bar geliri, hasar gideri ve ön ödeme henüz yok.
+- Servis tahmini garson ile mutfaktan yavaş olanını alır: `min(garson·8, aşçı·24)` (aşçı yoksa mutfak 6). Barmen bar/susuzluk gelene kadar personel listesinde yok.
 - Etkinlik süresi ≈ 6 gerçek dakika; ihtiyaç artışı ve yeme/dans süreleri buna göre ayarlandı. Denge ilk oynanış testinden sonra yeniden bakılacak: şu an kötü bir etkinlik de nakit olarak kârlı kalabiliyor (ceza itibarda ve kesintide); “zarar ettirme” için indirim/itibar etkisi artırılabilir.
+
+## 12. Uygulama notları (Faz 1, dilim 1e: denge ve ilerleme)
+- **Katalog 10 eşya (prototip hedefi):** çiçek standı (prestij 3), avize (prestij 9, yürünebilir), disko ışığı (eğlence 6) eklendi; DJ eğlencesi 6→15, pist 3→4, WC fiyatı 6.000→4.500 TL. Nişan taban prestij beklentisi 40→35.
+- **WC oranı:** `guests_per_wc_slot` 15→25. Simülasyonda 50 misafire tek WC 20 kişilik kuyruk ve 15 terk üretiyor, iki WC'de kuyruk 5'e iniyor; statik tahmin bununla uyumlu.
+- **Ölçüt (test):** başlangıç kasası (60.000 TL) ve seviye 1 ile alınabilen düzen (50 sandalye, 1 masa, servis masası, 2 WC, 2 pist, DJ, 3 çiçek; 2 garson + 1 aşçı), 50 misafirde beş türün hepsinde ≥3 yıldız ve pozitif net (`tests/test_progress.gd`). Daha iyi düzen (~95.000 TL: avize, disko ışığı, ek masa/WC) ≈4 yıldız.
+- **XP/seviye (§9):** `xp = yıldız·10 + misafir/5 + max(0, net)/1000`; eşik `100·1.35^(seviye−1)`, artan XP sonraki seviyeye kalır. Profesyonel hoparlör seviye 5'te açılır (~10 etkinlik).
+- **Kira ve borç (§7-8):** her etkinlik günü kira 600 TL. Kasa eksiye düşebilir; eksi kasa borçtur, satın almayı engeller ve günlük %2 faiz gider olarak yazılır. Borç 100.000 TL'yi aşınca kârsız geçen her gün sayılır (kârlı gün sıfırlar); 7. günde işletme kapanır, “Yeniden başla” ile sıfırdan başlanır. Kurtarma kredisi ve eşya satışı (%50) henüz yok; eşya silme %70 iade eder.
+- **Kayıt:** şema 2 (`xp`, `insolvent_days`); v1 kayıtlar göçle açılır.

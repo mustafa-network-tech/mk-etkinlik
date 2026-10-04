@@ -6,7 +6,7 @@ const Nav := preload("res://sim/nav.gd")
 const KEYS := ["prestige", "comfort", "fun", "service", "safety"]
 
 
-## staff: [{role, speed}] — şimdilik yalnız waiter/security okunur.
+## staff: [{role, speed}] — waiter, cook ve security okunur.
 static func estimate(state, guests: int, staff: Array = []) -> Dictionary:
 	var t: Dictionary = state.data.tuning
 	var st: Dictionary = t["stats"]
@@ -18,13 +18,18 @@ static func estimate(state, guests: int, staff: Array = []) -> Dictionary:
 	var wc_ratio := _ratio(caps["wc_slots"], guests / float(st["guests_per_wc_slot"]))
 	var dance_ratio := _ratio(caps["dance_slots"], guests * float(st["dancers_ratio"]))
 	var waiters := 0.0
+	var cooks := 0.0
 	var security := 0
 	for s in staff:
 		if s["role"] == "waiter":
 			waiters += float(s.get("speed", 1.0))
+		elif s["role"] == "cook":
+			cooks += float(s.get("speed", 1.0))
 		elif s["role"] == "security":
 			security += 1
-	var service_ratio := _ratio(waiters * float(st["service_per_waiter"]),
+	# Servis hızı garson ile mutfaktan yavaş olanıdır; aşçısız mutfak çok yavaş (docs/04 §5).
+	var kitchen: float = cooks * float(st["service_per_cook"]) if cooks > 0.0 else float(st["kitchen_service_no_cook"])
+	var service_ratio := _ratio(minf(waiters * float(st["service_per_waiter"]), kitchen),
 			guests * float(st["service_demand_per_guest"]))
 
 	var eff := {

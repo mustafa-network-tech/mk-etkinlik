@@ -1,5 +1,5 @@
 extends RefCounted
-## Etkinlik sonucu: beklenti eşleşmesi, yıldız, gelir/gider, itibar (docs/06 §3-7).
+## Etkinlik sonucu: beklenti eşleşmesi, yıldız, gelir/gider, itibar, XP ve borç (docs/06 §3-9).
 
 const Stats := preload("res://sim/venue_stats.gd")
 
@@ -32,7 +32,10 @@ static func compute(state, run, contract: Dictionary, staff: Array) -> Dictionar
 		{"kind": "catering", "amount": n * int(type["head_cost"])},
 		{"kind": "staff", "amount": _staff_cost(eco, staff, hours)},
 		{"kind": "electricity", "amount": _electricity(state, eco, hours)},
+		{"kind": "rent", "amount": int(eco["daily_rent"])},
 	]
+	if state.debt() > 0: # bir günlük faiz, etkinlik öncesi borç üzerinden
+		expenses.append({"kind": "interest", "amount": roundi(state.debt() * float(eco["debt_interest_per_day"]))})
 	var total_in := 0
 	for e in income:
 		total_in += e["amount"]
@@ -44,6 +47,9 @@ static func compute(state, run, contract: Dictionary, staff: Array) -> Dictionar
 	var rep_delta := roundi((stars - 3) * float(eco["rep_per_star"]) * size_factor)
 	if stars <= 2:
 		rep_delta -= int(eco["low_star_extra_rep"])
+	# XP = yıldız·10 + misafir/5 + net/1000; zarar XP'den düşmez.
+	var xp_gain := int(stars * float(eco["xp_per_star"]) + n / float(eco["xp_guests_per_point"])
+			+ maxf(0.0, total_in - total_out) / float(eco["xp_net_per_point"]))
 
 	return {
 		"event_type": contract["event_type"], "guests": n,
@@ -52,17 +58,30 @@ static func compute(state, run, contract: Dictionary, staff: Array) -> Dictionar
 		"final": final_score, "stars": stars,
 		"income": income, "expenses": expenses,
 		"total_income": total_in, "total_expenses": total_out, "net": total_in - total_out,
-		"reputation_delta": rep_delta,
+		"reputation_delta": rep_delta, "xp_gain": xp_gain,
 		"issues": _issues(achieved, expect, type["weights"], run_res["log"]),
 		"abandon_count": run_res["abandon_count"],
 	}
 
 
-## Kasa ve itibarı günceller.
+## Kasa, itibar, XP/seviye ve iflas sayacını günceller; sonuca levels_gained ve closed yazar.
 static func apply(state, result: Dictionary) -> void:
 	state.cash += result["net"]
 	var cap := int(state.data.tuning["economy"]["rep_max"])
 	state.reputation = clampi(state.reputation + result["reputation_delta"], 0, cap)
+	state.xp += int(result["xp_gain"])
+	var gained := 0
+	while state.xp >= state.xp_to_next():
+		state.xp -= state.xp_to_next()
+		state.level += 1
+		gained += 1
+	result["levels_gained"] = gained
+	# Borç sınırının üstünde kâr edilmeyen her gün sayılır; sınır altına inmek ya da kâr sıfırlar.
+	if state.over_debt_limit() and result["net"] <= 0:
+		state.insolvent_days += 1
+	else:
+		state.insolvent_days = 0
+	result["closed"] = state.is_closed()
 
 
 static func _match(achieved: Dictionary, expect: Dictionary, weights: Dictionary, span: float) -> float:

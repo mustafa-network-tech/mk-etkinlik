@@ -3,7 +3,7 @@
   "ui.title": "Etkinlik Tycoon",
   "ui.day": "Gün %d",
   "ui.cash": "Kasa: %s TL",
-  "ui.level": "Seviye %d",
+  "ui.level": "Seviye %d (%d/%d XP)",
   "ui.reputation": "İtibar %d · %s",
   "tier.0": "Mahalle salonu",
   "tier.1": "Popüler mekân",
@@ -89,13 +89,23 @@
   "err.locked_during_event": "Etkinlik sırasında yapı değiştirilemez.",
   "err.not_buildable": "Buraya duvar konamaz.",
   "err.wall_exists": "Burada duvar var.",
-  "err.item_in_way": "Eşyanın içinden duvar geçmez."
+  "err.item_in_way": "Eşyanın içinden duvar geçmez.",
+  "ui.xp_gain": "Deneyim: +%d XP",
+  "ui.level_up": "Seviye atladınız: %d. Yeni eşyalar açılmış olabilir.",
+  "ui.debt_warning": "Borç sınırı aşıldı! Kâr etmek için %d etkinlik kaldı.",
+  "ui.closed": "İşletme kapandı: borç sınırı aşıldı ve zamanında kâr edilemedi.",
+  "ui.restart": "Yeniden başla",
+  "expense.rent": "Kira",
+  "expense.interest": "Borç faizi",
+  "item.flower_stand": "Çiçek standı",
+  "item.chandelier": "Avize",
+  "item.disco_light": "Disko ışığı"
  },
  "en": {
   "ui.title": "Event Tycoon",
   "ui.day": "Day %d",
   "ui.cash": "Cash: %s TL",
-  "ui.level": "Level %d",
+  "ui.level": "Level %d (%d/%d XP)",
   "ui.reputation": "Reputation %d · %s",
   "tier.0": "Neighborhood hall",
   "tier.1": "Popular venue",
@@ -181,6 +191,16 @@
   "err.locked_during_event": "Cannot build during an event.",
   "err.not_buildable": "Cannot build a wall here.",
   "err.wall_exists": "There is already a wall.",
-  "err.item_in_way": "A wall cannot cut through an item."
+  "err.item_in_way": "A wall cannot cut through an item.",
+  "ui.xp_gain": "Experience: +%d XP",
+  "ui.level_up": "Level up: %d. New items may be unlocked.",
+  "ui.debt_warning": "Debt limit exceeded! %d events left to make a profit.",
+  "ui.closed": "Business closed: debt limit exceeded and no profit in time.",
+  "ui.restart": "Start over",
+  "expense.rent": "Rent",
+  "expense.interest": "Debt interest",
+  "item.flower_stand": "Flower stand",
+  "item.chandelier": "Chandelier",
+  "item.disco_light": "Disco light"
  }
 }

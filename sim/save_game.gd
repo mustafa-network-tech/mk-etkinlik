@@ -4,11 +4,16 @@ extends RefCounted
 
 const GameState := preload("res://sim/game_state.gd")
 
-const CURRENT_VERSION := 1
+const CURRENT_VERSION := 2
 const GAME_VERSION := "0.1.0"
 
-## Her giriş from -> from+1 dönüştürür. Henüz taşınacak sürüm yok.
-static var MIGRATIONS: Array[Callable] = []
+## Her giriş from -> from+1 dönüştürür (indeks = from − 1).
+static var MIGRATIONS: Array[Callable] = [
+	func(d: Dictionary) -> Dictionary: # v1 -> v2: XP ve iflas sayacı
+		d["xp"] = 0
+		d["insolvent_days"] = 0
+		return d,
+]
 
 
 static func to_dict(state) -> Dictionary:
@@ -27,8 +32,10 @@ static func to_dict(state) -> Dictionary:
 	return {
 		"cash": state.cash,
 		"level": state.level,
+		"xp": state.xp,
 		"reputation": state.reputation,
 		"day": state.day,
+		"insolvent_days": state.insolvent_days,
 		"venue": {"width": venue.width, "height": venue.height, "walls": walls,
 				"items": items, "next_id": venue.next_id},
 	}
@@ -42,8 +49,10 @@ static func from_dict(game_data, d: Dictionary) -> Dictionary:
 		return {"ok": false, "error": "grid_mismatch"}
 	state.cash = int(d.get("cash", 0))
 	state.level = int(d.get("level", 1))
+	state.xp = int(d.get("xp", 0))
 	state.reputation = int(d.get("reputation", 0))
 	state.day = int(d.get("day", 1))
+	state.insolvent_days = int(d.get("insolvent_days", 0))
 	var venue = state.venue
 	for w in v.get("walls", []):
 		var x := int(w["x"])

@@ -35,6 +35,7 @@ func _initialize() -> void:
 	main.session.offer(int(main.session.request["budget"] * 0.9))
 	main.session.set_staff("waiter", 3)
 	main._staff_spins["waiter"].value = 3
+	main._staff_spins["cook"].value = 1
 	main._refresh()
 	await _frames(2)
 	_shot("2_built")

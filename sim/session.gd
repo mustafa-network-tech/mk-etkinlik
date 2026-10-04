@@ -5,13 +5,14 @@ const Customers := preload("res://sim/customers.gd")
 const EventRun := preload("res://sim/event_run.gd")
 const EventResult := preload("res://sim/event_result.gd")
 
-const ROLES := ["waiter", "cook", "bartender"]
+## Barmen, bar ve susuzluk simülasyona girene kadar listede yok (maaş ödeyip iş yapmasın).
+const ROLES := ["waiter", "cook"]
 
 var state
 var rng := RandomNumberGenerator.new()
 var request: Dictionary = {}
 var contract: Dictionary = {}
-var staff_counts := {"waiter": 0, "cook": 0, "bartender": 0}
+var staff_counts := {"waiter": 0, "cook": 0}
 var run = null
 var last_result: Dictionary = {}
 var rejections := 0
@@ -30,7 +31,7 @@ func new_request() -> void:
 
 ## Müşteri teklifi kabul etti mi. İki ret sonrası müşteri çekilir, yeni talep gelir.
 func offer(price: int) -> bool:
-	if request.is_empty() or not contract.is_empty():
+	if request.is_empty() or not contract.is_empty() or state.is_closed():
 		return false
 	if Customers.decide(state, request, price, rng):
 		contract = {"name": request["name"], "event_type": request["event_type"],
@@ -50,7 +51,8 @@ func decline() -> void:
 
 
 func set_staff(role: String, count: int) -> void:
-	staff_counts[role] = maxi(0, count)
+	if ROLES.has(role):
+		staff_counts[role] = maxi(0, count)
 
 
 func staff_list() -> Array:
@@ -62,7 +64,7 @@ func staff_list() -> Array:
 
 
 func can_start() -> bool:
-	return not contract.is_empty() and run == null and not state.event_active
+	return not contract.is_empty() and run == null and not state.event_active and not state.is_closed()
 
 
 func start_event() -> bool:

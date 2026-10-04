@@ -21,7 +21,9 @@ var music_on := false
 var guests: Array = [] ## id-1 indeksli; çıkanlar da kalır (metrik için)
 var stations: Array = [] ## {item_id, kind, slots, use_s, occupants, queue, cells}
 var waiters: Array = []
-var orders: Dictionary = {} ## id -> {guest, placed_step, state: PLACED|TAKEN|READY|BLOCKED}
+var cooks := 0
+## id -> {guest, placed_step, state: PLACED|TAKEN|READY|BLOCKED, cook: QUEUED|COOKING|DONE, cook_left}
+var orders: Dictionary = {}
 var event_log: Array = [] ## {minute, guest, kind, where}
 var metrics := {"abandon_count": 0, "meals": 0, "dances": 0, "wc_uses": 0,
 		"order_waits_s": [], "max_queue_wc": 0, "max_queue_dance": 0}
@@ -55,6 +57,8 @@ func setup(p_state, config: Dictionary):
 			w.speed = float(s.get("speed", 1.0))
 			w.place_at(state.venue.entrance)
 			waiters.append(w)
+		elif s["role"] == "cook":
+			cooks += 1
 	state.event_active = true
 	return self
 
@@ -76,6 +80,7 @@ func step() -> void:
 	_decide()
 	_act()
 	_update_queues()
+	_update_kitchen()
 	_update_waiters()
 	_accumulate_satisfaction()
 	step_count += 1
@@ -269,7 +274,8 @@ func _go_to(g, si: int) -> void:
 
 
 func _place_order(g) -> void:
-	orders[_next_order] = {"guest": g.id, "placed_step": step_count, "state": "PLACED"}
+	orders[_next_order] = {"guest": g.id, "placed_step": step_count, "state": "PLACED",
+			"cook": "QUEUED", "cook_left": 0.0}
 	g.order_id = _next_order
 	_next_order += 1
 
@@ -351,13 +357,38 @@ func _update_waiters() -> void:
 				if w.advance(float(cfg["waiter_cells_per_s"]) * w.speed, _dt):
 					w.state = Waiter.State.PICKING
 					w.timer = float(cfg["pickup_time_s"])
-			Waiter.State.PICKING:
-				w.timer -= _dt
-				if w.timer <= 0.0:
-					_waiter_start_delivery(w)
+			Waiter.State.PICKING: # yemek hazır değilse servis masasında bekler
+				if orders[w.order_id]["cook"] == "DONE":
+					w.timer -= _dt
+					if w.timer <= 0.0:
+						_waiter_start_delivery(w)
 			Waiter.State.TO_DELIVER:
 				if w.advance(float(cfg["waiter_cells_per_s"]) * w.speed, _dt):
 					_deliver(w)
+
+
+## Siparişler geliş sırasıyla pişer. Her aşçı birkaç tabağı paralel hazırlar;
+## aşçı yoksa tek tezgâhta çok yavaş (docs/04 §5).
+func _update_kitchen() -> void:
+	var slots: int = cooks * int(cfg["prep_slots_per_cook"]) if cooks > 0 else 1
+	var prep: float = float(cfg["prep_time_cook_s"]) if cooks > 0 else float(cfg["prep_time_no_cook_s"])
+	var busy := 0
+	for id in orders:
+		var o: Dictionary = orders[id]
+		if o["cook"] == "COOKING":
+			o["cook_left"] -= _dt
+			if o["cook_left"] <= 0.0:
+				o["cook"] = "DONE"
+			else:
+				busy += 1
+	for id in orders:
+		if busy >= slots:
+			break
+		var o: Dictionary = orders[id]
+		if o["cook"] == "QUEUED":
+			o["cook"] = "COOKING"
+			o["cook_left"] = prep
+			busy += 1
 
 
 func _waiter_take_order(w) -> void:
